@@ -1,0 +1,37 @@
+Sub CombineExcelFiles()
+    Dim folderPath As String
+    Dim fileName As String
+    Dim wb As Workbook
+    Dim ws As Worksheet
+    Dim i As Integer
+
+    'Change this to the folder path where the Excel files are located
+    folderPath = "C:\ExcelFiles\"
+
+    'Change this to the name of the destination Excel file
+    fileName = "CombinedData.xlsx"
+
+    'Open the destination Excel file
+    Set wb = Workbooks.Open(folderPath & fileName)
+    Set ws = wb.Sheets(1)
+
+    i = 1
+
+    'Loop through all Excel files in the folder
+    For Each f In FileIO.FileSystem.GetFiles(folderPath, FileIO.SearchOption.SearchAllSubDirectories, "*.xlsx")
+        'Open the current Excel file
+        Set wb = Workbooks.Open(f)
+
+        'Copy the data in column B
+        wb.Sheets(1).Columns("B").Copy
+
+        'Paste the data into the destination Excel file in the next column
+        ws.Cells(1, i).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+
+        'Increment the column counter
+        i = i + 1
+
+        'Close the current Excel file
+        wb.Close
+    Next f
+End Sub
