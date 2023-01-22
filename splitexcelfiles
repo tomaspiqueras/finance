@@ -1,0 +1,12 @@
+Sub SplitWorkbook()
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets("Sheet1") ' change "Sheet1" to the name of the sheet with your company information
+    Dim i As Integer
+    For i = 2 To ws.UsedRange.Rows.Count ' assumes the first row is a header
+        ws.Rows(i).Copy
+        Workbooks.Add
+        ActiveSheet.PasteSpecial Transpose:=True ' pastes the information in transposed format
+        ActiveWorkbook.SaveAs ThisWorkbook.Path & "\" & ws.Cells(i, 1).Value & ".xlsx" ' saves the new workbook with the company name in column A as the file name
+        ActiveWorkbook.Close
+    Next i
+End Sub
