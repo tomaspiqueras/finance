@@ -1,0 +1,16 @@
+
+Sub CopyAndPasteColumns()
+ 
+Dim i As Integer
+Dim sourceSheet As Worksheet
+Dim targetSheet As Worksheet
+ 
+Set sourceSheet = ThisWorkbook.Sheets("Sheet1")
+Set targetSheet = ThisWorkbook.Sheets("Sheet2")
+ 
+For i = 1 To sourceSheet.UsedRange.Columns.Count
+    sourceSheet.Columns(i).Copy
+    targetSheet.Columns(i * 2 - 1).Insert Shift:=xlToRight
+Next i
+ 
+End Sub
