@@ -1,0 +1,26 @@
+library(readxl)
+datos<- read_xlsx("ROUTE TO DOCUMENT")
+# Cargar librerías
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(forecast)
+#renombra las columnas
+datos <- datos %>% 
+  rename(`2020` = `posicion 2020`,
+         `2021` = `posicion 2021`,
+         `2022` = `posiccion 2022`)
+
+# se transpone la tabla
+posiciones_long<- gather(datos, key = "año", value ="posiciones", -equipo)
+#se hace un forecast de los valores NA
+posiciones_long$posiciones <- na.interp(posiciones_long$posiciones)
+#se dibuja el grafico de lineas
+glinea<- ggplot(posiciones_long, aes(x = año, y = posiciones, color = equipo, group = equipo)) +
+  geom_line() +
+  labs(x = "Año", y = "Posición", title = "Evolución de los equipos")
+#se dibuja el grafico de puntos
+gpoint<- ggplot(posiciones_long, aes(x = año, y = posiciones, color = equipo, group = equipo)) +
+  geom_point() +
+  labs(x = "Año", y = "Posición", title = "Evolución de los puntos")
+print(gpoint)
