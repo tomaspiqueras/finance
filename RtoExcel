@@ -1,0 +1,7 @@
+library(writexl)
+
+# Crear un data frame con la subtabla y la tabla fusionada 
+df <- list(Subtabla = subtabla, `Tabla Fusionada` = merged_table)
+
+# Escribir el data frame en un archivo Excel
+write_xlsx(df, "archivo.xlsx")
