@@ -1,0 +1,29 @@
+library(ggplot2)
+library(readxl)
+
+datos <- read_excel("df.xlsx")
+
+equipos_unicos <- unique(datos$team)
+
+# Loop para crear gráficos separados para cada equipo
+for (equipo in equipos_unicos) {
+  # Obtener el país del equipo actual
+  pais_equipo <- unique(datos$country[datos$team == equipo])
+  
+  # Filtrar los datos para obtener solo el equipo actual y los equipos del mismo país
+  datos_filtrados <- subset(datos, team == equipo | (team != equipo & country %in% pais_equipo))
+  
+  # Crear el gráfico de barras comparando el equipo con los equipos del mismo país
+  p <- ggplot(datos_filtrados, aes(x = factor(year), y = score, fill = factor(team))) +
+    geom_bar(stat = "identity", position = position_dodge(width = 0.9), width = 0.7) +
+    labs(x = "Año", y = "Puntaje", fill = "Equipo") +
+    ggtitle(paste("Comparación de puntajes del equipo", equipo, "con equipos del mismo país")) +
+    scale_fill_manual(values = c("red", rep("grey", length(equipos_unicos) - 1)),
+                      breaks = c(equipo),
+                      labels = c(equipo)) +
+    scale_x_discrete(labels = unique(datos$year))
+  
+  # Mostrar el gráfico
+  print(p)
+}
+#compara los datos de cada equipo con los datos de los equipos que estan en el mismo pais
