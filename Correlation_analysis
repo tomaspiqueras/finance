@@ -1,0 +1,49 @@
+library(readxl)
+library(ggplot2)
+df<- read_excel("Route to document.xls)
+View(df)
+
+#data cleaning 
+subset_df <- df[, 3:ncol(df)]
+matriz_cor <- cor(subset_df)
+print(matriz_cor)
+
+correlation_fatf <- cor(subset_df$FATF, subset_df[, -1])
+print(correlation_fatf)
+
+
+
+# Crear el gráfico de correlación
+ggplot(df, aes(x = ROA, y = FATF)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(x = "ROA", y = "Riesgo FATF",
+       title = "Gráfico 1 - Correlación nivel de riesgo FATF y ROA")
+
+# Crear el gráfico de correlación
+ggplot(df, aes(x = ROE, y = FATF)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(x = "ROE", y = "Riesgo FATF",
+       title = "Gráfico 2 - Correlación nivel de riesgo FATF y ROE")
+
+# Crear el gráfico de correlación
+ggplot(df, aes(x = CostToIncome, y = FATF)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(x = "Cost to Income", y = "Riesgo FATF",
+       title = "Gráfico 3 - Correlación nivel de riesgo FATF y Cost to Income")
+
+# Crear el gráfico de correlación
+ggplot(df, aes(x = NplRatio, y = FATF)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(x = "NPL", y = "Riesgo FATF",
+       title = "Gráfico 4 - Correlación nivel de riesgo FATF y NPL")
+
+# Crear el gráfico de correlación
+ggplot(df, aes(x = NetInterestMargin, y = FATF)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(x = "NIM", y = "Riesgo FATF",
+       title = "Gráfico 5 - Correlación nivel de riesgo FATF y NIM")
