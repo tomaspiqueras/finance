@@ -1,0 +1,32 @@
+import pandas as pd
+ruta = 'Proyecto_Py.xlsx'
+df = pd.read_excel(ruta)
+print(df)
+#creamos nuevas columnas con lo que consideremos
+df['a1_multiplicado'] = df['A1'] * 2
+df['resta'] = df['A1'] - df['A2']
+#por si necesitamos saber la posicion de una clumna
+col_post= df.columns.get_loc('resta')
+print(col_post)
+
+#reordenas las columnas como quieras
+df = df[['JST','a1_multiplicado','A1','A2','A3','resta']]
+print(df)
+
+#creas un df con criterios, en este caso que sea ESBBV o que la columna a2 sea menor que 10
+df2 = df[(df['JST'] == 'ESBBV') | (df['A2'] < 10)]
+print(df2)
+
+#sacas una lista con los JSTs que tienes en el exel 
+JSTs = df['JST'].unique().tolist()
+print(JSTs)
+
+#con este loop creamos una variable con el nombre del JST que sea un df formado por los datos sólo del JST
+for i in JSTs:
+   #por cada i crea un df con sus datos
+   vars()[i] = df[df['JST'] == i]
+   #crea un excel con los datos de cada JST
+   vars()[i].to_excel(f"{i}.xlsx", index=False)
+# Mostramos uno de los DataFrames creados
+print(ESBBV)
+# Mostrar los DataFrames creados
